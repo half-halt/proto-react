@@ -1,0 +1,8 @@
+.mainLink {
+	color: magenta; 
+
+	&.active { 
+		color: green;
+		font-weight: bold;
+	}
+}

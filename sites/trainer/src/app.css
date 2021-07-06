@@ -1,0 +1,5 @@
+
+.stuff {
+	color:var(--theme-sub);
+	font-size: smaller;
+}
