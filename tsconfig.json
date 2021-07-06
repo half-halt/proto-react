@@ -44,6 +44,7 @@
     "paths": {
       "@hhf/ui": ["libs/ui/index.ts"],
       "@hhf/rx": ["libs/rx/index.ts"],
+      "@hhf/services": ["libs/services/index.ts"],
       "@hhf/theme": ["libs/theme/index.ts"]
     },                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */

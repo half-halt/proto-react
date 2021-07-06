@@ -23,6 +23,7 @@ const baseConfig = {
 		alias: {
 			'@hhf/ui': path.resolve(__dirname, '../libs/ui/index.ts'),
 			'@hhf/rx': path.resolve(__dirname, '../libs/rx/index.ts'),
+			'@hhf/services': path.resolve(__dirname, '../libs/services/index.ts'),
 			'@hhf/theme': path.resolve(__dirname, '../libs/theme/index.ts')
 		}
 	},
