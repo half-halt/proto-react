@@ -1,0 +1,24 @@
+
+.navigationDrawer {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	& .navigationItems {
+		display: flex;
+		flex-direction: column;
+		padding: .25em;
+		
+		&:not(:first-child) {
+			margin-top: 1em;
+		}
+
+		li {
+			padding: .5em 1em;
+		}
+
+		li:hover {
+			background-color: var(--theme-primary-light);
+		}
+	}
+}

@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 const CssPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
+const { DefinePlugin } = require('webpack');
 
 
 const baseConfig = {
@@ -15,15 +17,33 @@ const baseConfig = {
 			{
 				test: /\.(css|scss)$/i,
 				use: [CssPlugin.loader, 'css-loader', 'sass-loader'],
+			},
+			{
+				test: /(\.svg$)/i,
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							presets: ['preact', 'env']
+						}
+					},
+					{
+						loader: '@svgr/webpack',
+						options: { babel: false }
+					}, 
+					'url-loader'
+				]
 			}
 		]
 	},
 	resolve:{
-		extensions: ['.ts', '.tsx', '.js', '.css', '.scss'],
+		extensions: ['.ts', '.tsx', '.js', '.css', '.scss', '.svg'],
 		alias: {
+			'react': 'preact/compat',
 			'@hhf/ui': path.resolve(__dirname, '../libs/ui/index.ts'),
 			'@hhf/rx': path.resolve(__dirname, '../libs/rx/index.ts'),
 			'@hhf/services': path.resolve(__dirname, '../libs/services/index.ts'),
+			'@types/trainer-api': path.resolve(__dirname, '../types/trainer-api/index.d.ts'),
 			'@hhf/theme': path.resolve(__dirname, '../libs/theme/index.ts')
 		}
 	},
@@ -42,7 +62,9 @@ const baseConfig = {
 		}
 	},
 	plugins:[
-		new HtmlPlugin(),
+		new HtmlPlugin({
+			base: "/",
+		}),
 	],
 };
 
@@ -77,9 +99,33 @@ module.exports = (name, entry, isDev) => {
 			historyApiFallback: true,
 			hot: true,
 		}
+
+		config.plugins.push(
+			new Dotenv({
+				path: path.resolve(__dirname, '../.env.development'),
+				safe: true,
+			}),
+		);
+		config.plugins.push(
+			new DefinePlugin({
+				PRODUCTION: false,
+			})
+		);
 	} else {
 		config.mode = 'production';
 		config.optimization.minimize = true;
+
+		config.plugins.push(
+			new Dotenv({
+				path: path.resolve(__dirname, '../.env'),
+				safe: true,
+			})			
+		);
+		config.plugins.push(
+			new DefinePlugin({
+				PRODUCTION: true,
+			})
+		);
 	}
 
 	return config;

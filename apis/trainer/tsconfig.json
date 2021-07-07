@@ -1,0 +1,7 @@
+{
+	"compilerOptions":{
+		"outDir": "../../build/ts-out/api/trainer"
+	},
+	"extends": "../tsconfig.json",
+	"include": ["**/*.ts", "**/*.js"],
+}

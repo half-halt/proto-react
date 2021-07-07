@@ -1,5 +1,5 @@
-import { concatMap, Subject } from "rxjs";
-import { serviceManagerInstance } from "./instance";
+import { Subject } from "rxjs";
+import { serviceManagerInstance } from "../instance";
 
 export interface LogEntry {
 	level: "info" | "warning" | "error";

@@ -12,7 +12,6 @@ export const Themed: FunctionalComponent<ThemeProps> = ({ prefix, theme, childre
   const [currentTheme, setCurrentTheme] = useState<Record<string, unknown> | undefined>(theme);
   const themeService = useThemeService();
 
-  console.log(currentTheme);
 
   useEffect(() => {
     if (!theme) {

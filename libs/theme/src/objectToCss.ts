@@ -39,8 +39,6 @@ function objectToCssVariables(object: Record<string, unknown>, parent: string, v
 			vars[varName] = createCssValue(value);
 		}
 	}
-
-	console.dir(vars);
 }
   
 export function objectToCss(object: Record<string, unknown>, parent: string) {

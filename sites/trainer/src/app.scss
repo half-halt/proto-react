@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
+
+div#root {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	display: grid;
+	grid-template-areas:
+		"nav header"
+		"nav content";
+	grid-template-rows: 4em auto;
+	grid-template-columns: 20ch auto;
+
+	header {
+		grid-area: header;
+	}
+
+	nav {
+		grid-area: nav;
+	}
+
+	main {
+		grid-area: content;
+		overflow: auto;
+		background-color: var(--theme-background);
+		color: var(--theme-text-primary);
+	}
+}
+
+.logoHeader {
+	font-size:1.5em;
+	text-align: center;
+	font-weight: bold;
+	padding: .5em .25em;
+	font-family: 'Otomanopee One', sans-serif;	
+	color: var(--theme-primary-dark);
+}

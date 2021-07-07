@@ -1,0 +1,12 @@
+[functions]
+	directory = "../../build/api/trainer-api"
+	
+[dev]
+	port = 4044
+	
+
+[[redirects]]
+	from = "/vl/*"
+	to = "/.netlify/functions/trainer-api"
+	status = 200
+	force=true
