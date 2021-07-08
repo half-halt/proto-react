@@ -1,5 +1,5 @@
 {
-  "name": "hhft",
+  "name": "hhf",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
@@ -8,6 +8,7 @@
     "@svgr/webpack": "^5.5.0",
     "@types/aws-lambda": "^8.10.78",
     "@types/jsonwebtoken": "^8.5.4",
+    "@types/node": "^16.0.1",
     "babel-loader": "^8.2.2",
     "babel-preset-env": "^1.7.0",
     "babel-preset-preact": "^2.0.0",
@@ -28,21 +29,23 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.6.0",
     "chalk": "^4.1.1",
     "faunadb": "^4.3.0",
     "graphql": "^15.5.1",
     "jsonwebtoken": "^8.5.1",
+    "nanoid": "^3.1.23",
     "preact": "^10.5.14",
     "preact-async-route": "^2.2.1",
     "preact-router": "^3.2.1",
     "rxjs": "^7.2.0"
   },
   "scripts": {
-    "build:trainer": "webpack --mode=production -c ./sites/trainer/webpack.config.js",
-    "build:trainer-api": "webpack --mode=production -c ./apis/trainer/webpack.config.js",
-    "dev:trainer": "webpack serve --mode=development --open -c ./sites/trainer/webpack.config.js",
-    "dev:trainer-api": "webpack --watch --mode=development -c ./apis/trainer/webpack.config.js",
-    "start:trainer-api": "netlify dev -f ./build/api/trainer-api -d ./build/api/trainer-api -p 4044",
-    "trainer-api": "run-p start:trainer-api dev:trainer-api"
+    "trainer:build": "webpack --mode=production -c ./sites/trainer/webpack.config.js",
+    "trainer:dev": "webpack serve --mode=development --open -c ./sites/trainer/webpack.config.js",
+    "trainer-api:build": "webpack --mode=production -c ./apis/trainer/webpack.config.js",
+    "trainer-api:dev": "webpack --watch --mode=development -c ./apis/trainer/webpack.config.js",
+    "trainer-api:start": "netlify dev -f ./build/api/trainer-api -d ./build/api/trainer-api -p 4044",
+    "trainer-api": "run-p trainer-api:dev trainer-api:start"
   }
 }

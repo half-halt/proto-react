@@ -57,6 +57,8 @@ export function handler(event: APIGatewayEvent, context: APIContext, callback: A
 		return;
 	}
 
+	console.dir(event);
+
 	const json = JSON.parse(event.body || '');
 	console.log(json);
 

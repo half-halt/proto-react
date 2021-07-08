@@ -1,4 +1,3 @@
-
 export const defaultTheme = {
 	id: 'default',
     hue: 220,
@@ -16,6 +15,23 @@ export const defaultTheme = {
             primary: "rgb(255, 255, 255)",
         }
     },
+
+    nav: {
+        background: "hsl(220, 50%, 60%)",
+        border: "hsl(220, 50%, 20%)",
+        link: {
+            color: "hsl(220, 20%, 10%)",
+            hover: {
+                color: "rgb(255,255,255)",
+                background: "hsl(220, 50%, 30%)"
+            },
+            active:{
+                color: "hsla(220, 50%, 20%)",
+                background: "hsla(220, 50%, 80%, .5)"
+            }
+        }
+    },
+
     control: {
         border: "hsla(220, 50%, 20%, 0.5)",
         background: "hsl(220, 50%, 90%)",

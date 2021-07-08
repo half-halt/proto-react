@@ -2,7 +2,6 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const { DefinePlugin } = require('webpack');
 
-
 const baseConfig = {
 	target: 'node',
 	devtool: 'source-map',
@@ -18,7 +17,7 @@ const baseConfig = {
 	resolve:{
 		extensions: ['.ts','.js'],
 		alias: {
-			'@types/trainer-api': path.resolve(__dirname, '../types/trainer-api/index.ts'),
+			'@hhf/trainer-api-types': path.resolve(__dirname, '../types/trainer-api-types/index.ts'),
 		}
 	},
 	optimization: {

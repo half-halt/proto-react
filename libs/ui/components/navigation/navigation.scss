@@ -3,22 +3,37 @@
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
+	background: var(--theme-nav-background);
+	border-left: 1px solid var(--theme-nav-border);
 
 	& .navigationItems {
 		display: flex;
 		flex-direction: column;
-		padding: .25em;
+		padding: .5em .5em;
 		
-		&:not(:first-child) {
-			margin-top: 1em;
-		}
-
-		li {
+		a {
+			display: flex;
+			color: inherit;
 			padding: .5em 1em;
+			text-decoration: none;
+			color: var(--theme-nav-link-color);
+
+			&:hover {
+				color: var(--theme-nav-link-hover-color);
+				background-color: var(--theme-nav-link-hover-background);
+			}
+
+			&.activeLink {
+				font-weight: bold;
+				pointer-events: none;
+				background-color: var(--theme-nav-link-active-background);
+				color: var(--theme-nav-link-active-color);
+			}
 		}
 
 		li:hover {
-			background-color: var(--theme-primary-light);
+			background-color: var(--theme-nav-hover-background);
+			color: var(--theme-nav-hover-color);
 		}
 	}
 }

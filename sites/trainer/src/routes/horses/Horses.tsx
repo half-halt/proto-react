@@ -1,16 +1,8 @@
 import { FunctionalComponent } from "preact";
-import Router, { Link } from "preact-router";
+import Router from "preact-router";
 import { useHeader } from "../../components/header/useHeader";
-
-const HorsesList: FunctionalComponent = () => {
-	useHeader('Horses', [{ text: '+ Add', path: '/horses/create' }]);
-
-	return (
-		<div>horse list
-		<Link href="/horses/x2dfgs">Horse link</Link>
-		</div>
-	)
-}
+import { CreateHorse } from "./components/CreateHorse";
+import { ViewHorses } from "./components/ViewHorses";
 
 const ViewHorse: FunctionalComponent = () => {
 	useHeader('Horse')
@@ -24,7 +16,8 @@ export const Horses: FunctionalComponent = (props: any) => {
 	console.log('props', props);
 	return (
 		<Router>
-			<HorsesList path="/horses"/>
+			<ViewHorses path="/horses"/>
+			<CreateHorse path="/horses/create"/>
 			<ViewHorse path="/horses/:horse"/>
 		</Router>
 	)

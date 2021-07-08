@@ -1,4 +1,4 @@
-import { Horses, Horse, HorseUpdates } from "types/trainer-api/horseTypes";
+import { Horses, Horse, HorseUpdates } from "types/trainer-api-types/horseTypes";
 
 export interface GetHorseArgs {
 	id: string;

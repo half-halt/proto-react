@@ -1,0 +1,28 @@
+
+.hhf-imageChooser {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+
+	canvas.noImage {
+		display: none;		
+	}
+
+	input {
+		align-self: stretch;
+	}
+
+	canvas {
+		background-color: var(--theme-text-secondary);
+		margin-bottom: .5em;
+	}
+
+	input[type = "file"] {
+		background-color: var(--theme-control-background);
+		border: 1px solid var(--theme-control-border);
+		border-radius: .25em;
+		padding: .25em;
+	}
+
+}

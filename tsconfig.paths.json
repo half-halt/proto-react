@@ -1,0 +1,13 @@
+{
+	"compilerOptions":{
+		"paths": {
+			"@hhf/ui": ["libs/ui/index.ts"],
+			"@hhf/rx": ["libs/rx/index.ts"],
+			"@hhf/services": ["libs/services/index.ts"],
+			"@hhf/api": ["libs/api/index.ts"],
+			"@hhf/theme": ["libs/theme/index.ts"],
+			"@hhf/image-ui": ["libs/image-ui/index.ts"],
+			"@hhf/trainer-api-types": ["types/trainer-api-types/index.ts"]
+  		}
+	}
+}

@@ -3,7 +3,8 @@ const HtmlPlugin = require('html-webpack-plugin');
 const CssPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 const { DefinePlugin } = require('webpack');
-
+const fs = require("fs");
+const loadAliases = require('../webpack/loadAliases');
 
 const baseConfig = {
 	devtool: 'source-map',
@@ -37,15 +38,10 @@ const baseConfig = {
 		]
 	},
 	resolve:{
+		alias:{
+			react: 'preact/compat',
+		},
 		extensions: ['.ts', '.tsx', '.js', '.css', '.scss', '.svg'],
-		alias: {
-			'react': 'preact/compat',
-			'@hhf/ui': path.resolve(__dirname, '../libs/ui/index.ts'),
-			'@hhf/rx': path.resolve(__dirname, '../libs/rx/index.ts'),
-			'@hhf/services': path.resolve(__dirname, '../libs/services/index.ts'),
-			'@types/trainer-api': path.resolve(__dirname, '../types/trainer-api/index.d.ts'),
-			'@hhf/theme': path.resolve(__dirname, '../libs/theme/index.ts')
-		}
 	},
 	optimization: {
 		minimize: false,
@@ -84,6 +80,7 @@ module.exports = (name, entry, isDev) => {
 		}
 	);
 
+	config.resolve.alias = Object.assign({}, loadAliases(), config.resolve.alias || {});
 	config.plugins.push(
 		new CssPlugin({
 			filename: `${name}-[name].css`
