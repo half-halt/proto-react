@@ -1,5 +1,5 @@
 import { useService } from "@hhf/services";
-import { useEffect } from "preact/hooks";
+import { useEffect } from "react";
 import { ActionInfo, HeaderService } from "./Header";
 
 export function useHeader(title?: string, actions: ActionInfo[] = []) {

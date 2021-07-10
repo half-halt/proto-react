@@ -38,9 +38,6 @@ const baseConfig = {
 		]
 	},
 	resolve:{
-		alias:{
-			react: 'preact/compat',
-		},
 		extensions: ['.ts', '.tsx', '.js', '.css', '.scss', '.svg'],
 	},
 	optimization: {

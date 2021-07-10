@@ -1,11 +1,11 @@
-import { FunctionalComponent } from "preact";
-import { Link } from "preact-router/match";
+import { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 
-export const Navigation: FunctionalComponent = () => {
+export const Navigation: FunctionComponent = () => {
 	return (
 		<nav>
 			<p>Navigation</p>
-			<Link class="mainLink" href="/" activeClassName="active">Some Link</Link>
+			<Link className="mainLink" to="/">Some Link</Link>
 		</nav>
 	);
 }

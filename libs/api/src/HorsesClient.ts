@@ -1,8 +1,9 @@
-import { of } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { firstValueFrom, of } from "rxjs";
+import { catchError, switchMap, tap } from "rxjs/operators";
 import { apiRequest } from "./apiRequest";
 import { Horse, Horses, HorseUpdates } from "@hhf/trainer-api-types";
 import { LogService } from "@hhf/services";
+import { rejects } from "assert";
 
 const HORSES_SHAPES = `#graphql
 	fragment HorseShape on Horse {
@@ -77,6 +78,14 @@ export class HorsesClient {
 				}
 			)
 		);
+	}
+
+	horses(token?: string) {
+		this.logger.log('HorsesClient: sending request for all horses');
+		return firstValueFrom<Horses>(
+			apiRequest<{ horses: Horses }>(process.env.TRAINER_API_URL!!, HORSES_QUERY, {}, { token: token ? token : '' }).pipe(
+				switchMap(response => of(response.horses))
+			));
 	}
 
 	getHorse = (id: string) => {

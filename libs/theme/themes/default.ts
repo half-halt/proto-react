@@ -36,7 +36,7 @@ export const defaultTheme = {
         border: "hsla(220, 50%, 20%, 0.5)",
         background: "hsl(220, 50%, 90%)",
         text: "#3b3b3b",
-        hover: "hsl(220, 50%, 75%)",
+        hover: "hsl(220, 50%, 85%)",
         outline: "hsla(220, 50%, 30%, .25)",
         radius: .25,
 
@@ -44,6 +44,13 @@ export const defaultTheme = {
             border: "rgba(255,128,0,.5)",
             background: "rgba(255, 128, 0, .125)",
             outline: "rgba(255, 128, 9, .25)",
+            hover: "rgba(255, 128, 0, .14)",
+        },
+
+        disabled: {
+            text: "rgba(0,0,0,.4)",
+            background: "rgba(0,0,0,.25)",
+            border: "rgba(0,0,0,.6)",
         }
     }
 }

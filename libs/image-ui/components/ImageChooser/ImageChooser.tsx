@@ -1,8 +1,7 @@
-import { FunctionComponent } from "preact";
-import { useState, useRef } from "preact/hooks";
+import { ChangeEventHandler, FunctionComponent } from "react";
+import { useState, useRef } from "react";
 import { ImageChooserProps } from "./ImageChooserProps";
 import './chooser.scss';
-import { JSXInternal } from "preact/src/jsx";
 import { fromEvent } from "rxjs";
 import { renderPreview } from "./renderPreview";
 
@@ -17,7 +16,7 @@ export const ImageChooser: FunctionComponent<ImageChooserProps> = ({
 	const [sourceImage, setSourceImage] = useState<HTMLImageElement|null>(null);
 	
 
-	const handleChange = (event: JSXInternal.TargetedEvent<HTMLInputElement>) => {
+	const handleChange: ChangeEventHandler = (event) => {
 		console.log('handle change');
 
 		const target = event.target as HTMLInputElement;
@@ -40,8 +39,8 @@ export const ImageChooser: FunctionComponent<ImageChooserProps> = ({
 	}
 
 	return (
-		<div class="hhf-imageChooser">
-			<canvas width={previewWidth} height={previewHeight} ref={canvasRef} class={!sourceImage ? 'noImage' : ''}/>
+		<div className="hhf-imageChooser">
+			<canvas width={previewWidth} height={previewHeight} ref={canvasRef}  className={!sourceImage ? 'noImage' : ''}/>
 			<input id="fileInput" type="file" onChange={handleChange}></input>
 		</div>
 	);

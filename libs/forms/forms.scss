@@ -1,0 +1,81 @@
+
+.hhf-formControl {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	&:not(:last-of-type) {
+		margin-bottom: 1em;
+	}
+
+	label.help {
+		font-size: smaller;
+		color: var(--theme-text-secondary);
+		margin: .5em 1em;
+	}
+
+	label.errors {
+		margin: .5em 1em;
+		border: 1px solid var(--theme-control-error-border);
+		color: var(--theme-control-error-text);
+		background-color: var(--theme-control-error-background);
+		padding: .5em;
+		font-size: smaller;
+
+		p:not(:last-child) {
+			margin-bottom: .5em;
+		}
+
+		&:not(:last-of-type) {
+			margin-top: .5em;
+		}
+	}
+
+	label.label {
+		font-weight: bold;
+		color: var(--theme-primary-dark);
+		margin-bottom: .25em;
+	}
+
+	input {
+		outline: none;
+		appearance: none;
+		border: 1px solid var(--theme-control-border);
+		background-color: var(--theme-control-background);
+		color: var(--theme-control-text);
+		border-radius: var(--theme-control-radius);
+		transition: all .25s linear;
+	}
+
+	input:focus {
+		box-shadow: 0px 0px 1px 1px var(--theme-control-outline);
+	}
+
+	input:hover {
+		background-color: var(--theme-control-hover);
+	}
+
+	input.invalid {
+		background-color: var(--theme-control-error-background);
+		border-color: var(--theme-control-error-border);
+	}
+	
+	input:focus.invalid {
+		box-shadow: 0px 0px 1px 1px var(--theme-control-error-outline);
+	}
+
+	input:hover.invalid {
+		background-color: var(--theme-control-error-hover);
+	}
+
+	input[type='text'] {
+		padding: .5em .5em;
+	}
+
+	input:disabled {
+		color: var(--theme-control-disabled-text);
+		background-color: var(--theme-control-disabled-background);
+		border-color: var(--theme-control-disabled-border);
+		pointer-events: none;
+	}
+}

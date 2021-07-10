@@ -1,6 +1,6 @@
-import { FunctionalComponent } from "preact";
+import { FunctionComponent } from "react";
 
-export const Home: FunctionalComponent = () => {
+export const Home: FunctionComponent = () => {
 	return (
 		<div>
 			Home Page

@@ -1,11 +1,11 @@
 import "./app.scss"
 import { NavigationDrawer } from "@hhf/ui";
 import { Themed } from "@hhf/theme";
-import { Route, Router } from 'preact-router';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Home } from "./routes/home/Home";
-import AsyncRoute from 'preact-async-route';
 import { Header } from "./components/header/Header";
 import { useHeader } from "./components/header/useHeader";
+import { lazy, Suspense } from 'react';
 
 const destinations = [
 	{ path: '/', text: 'Home' },
@@ -18,7 +18,7 @@ const destinations = [
 
 const NavHeader = () => {
 	return (
-		<div class="logoHeader">Trainer</div>
+		<div className="logoHeader">Trainer</div>
 	);
 }
 
@@ -30,21 +30,24 @@ const NotFound = () => {
 	);
 }
 
+const LazyHorses = lazy(() => import("./routes/horses/Horses").then(m => ({ default: m.Horses })));
+
 export function Application() {
 	return (
-		<Themed>
-			<Header />
-			<NavigationDrawer header={<NavHeader/>} destinations={destinations}/>
-			<main>
-				<Router>
-					<Route path="/" component={Home}/>
-					<AsyncRoute 
-						path="/horses/:rest*"
-						getComponent={() => import('./routes/horses/Horses').then(module => module.Horses)}
-						/>
-					<Route default component={NotFound}/>
-				</Router>
-			</main>
-		</Themed>
+		<BrowserRouter>
+			<Themed>
+				<Header />
+				<NavigationDrawer header={<NavHeader/>} destinations={destinations}/>
+				<main>
+					<Suspense fallback={<div>loading...</div>}>
+						<Routes>
+							<Route path="/" element={<Home/>}/>
+							<Route path="/horses/*" element={<LazyHorses/>}/>
+							<Route element={<NotFound/>}/>
+						</Routes>
+					</Suspense>
+				</main>
+			</Themed>
+		</BrowserRouter>		
 	)	
 }

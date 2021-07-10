@@ -1,5 +1,5 @@
-import { FunctionalComponent } from "preact";
-import { Link } from 'preact-router';
+import { FunctionComponent } from "react";
+import { NavLink as Link } from 'react-router-dom';
 
 interface HeaderActionProps {
 	action: {
@@ -9,12 +9,12 @@ interface HeaderActionProps {
 	}
 }
 
-export const HeaderAction: FunctionalComponent<HeaderActionProps> = ({
+export const HeaderAction: FunctionComponent<HeaderActionProps> = ({
 	action
 }) => {
 	if (typeof(action.path) === 'string') {
 		return (
-			<Link href={action.path}>{action.text}</Link>
+			<Link to={action.path}>{action.text}</Link>
 		);
 	} else if (action.handler && (typeof(action.handler) === 'function')) {
 		return (

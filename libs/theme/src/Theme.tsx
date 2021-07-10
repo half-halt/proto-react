@@ -1,5 +1,5 @@
-import { FunctionalComponent } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { FunctionComponent } from "react";
+import { useEffect, useState } from "react";
 import { objectToCss } from "./objectToCss";
 import { useThemeService } from "./ThemeService";
 
@@ -8,7 +8,7 @@ export interface ThemeProps {
   theme?: Record<string, unknown>;
 }
 
-export const Themed: FunctionalComponent<ThemeProps> = ({ prefix, theme, children }) => {
+export const Themed: FunctionComponent<ThemeProps> = ({ prefix, theme, children }) => {
   const [currentTheme, setCurrentTheme] = useState<Record<string, unknown> | undefined>(theme);
   const themeService = useThemeService();
 

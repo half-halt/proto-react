@@ -1,10 +1,10 @@
-import { FunctionalComponent } from "preact";
+import { FunctionComponent } from "react";
 import { useService } from "@hhf/services";
 import { BehaviorSubject } from "rxjs";
 import { useObservable } from "@hhf/rx";
 import { HeaderAction } from "./HeaderAction";
 import './header.scss';
-import { useEffect } from "preact/hooks";
+import { useEffect } from "react";
 
 export type ActionInfo = {
 	text: string,
@@ -25,7 +25,7 @@ export class HeaderService {
 	}
 }
 
-export const Header: FunctionalComponent = () => {
+export const Header: FunctionComponent = () => {
 	const headerService = useService(HeaderService);
 	const title = useObservable(headerService.title);
 	const actions = useObservable(headerService.actions);
@@ -40,10 +40,10 @@ export const Header: FunctionalComponent = () => {
 	}, [title])
 
 	return (
-		<header class="trainerHeader">
+		<header className="trainerHeader">
 			<h1>{title ? title : 'Home'}</h1>
 			{Array.isArray(actions) && (actions.length !== 0) && 
-				<ul class="headerActions">
+				<ul className="headerActions">
 					{actions.map(action => <HeaderAction action={action}/>)}
 				</ul>
 			}

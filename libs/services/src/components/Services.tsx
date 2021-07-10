@@ -1,12 +1,12 @@
-import { ComponentType, FunctionalComponent, isValidElement, VNode } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { ComponentType, FunctionComponent, isValidElement, ReactElement } from "react";
+import { useState, useEffect } from "react";
 import { serviceManagerInstance } from "../instance";
 
 export interface ServicesProps {
-	fallback?: ComponentType<any> | Element | VNode<any>;
+	fallback?: ComponentType<any> | Element | ReactElement<any, any>;
 }
 
-export const Services: FunctionalComponent<ServicesProps> = ({
+export const Services: FunctionComponent<ServicesProps> = ({
 	fallback,
 	children,
 }) => {

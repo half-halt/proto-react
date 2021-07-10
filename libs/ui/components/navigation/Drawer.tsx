@@ -1,5 +1,5 @@
-import { FunctionComponent, isValidElement, VNode } from "preact";
-import { Link } from "preact-router/match";
+import { FunctionComponent, isValidElement, ComponentType, ReactElement } from "react";
+import { NavLink as Link } from "react-router-dom";
 import "./navigation.scss";
 
 type Destination = {
@@ -9,7 +9,7 @@ type Destination = {
 }
 
 interface DrawerProps {
-	header?: VNode<any> | Element;
+	header?: ComponentType<any> | Element | ReactElement<any, any>;
 	destinations?: Destination[];
 }
 
@@ -18,13 +18,13 @@ export const Drawer: FunctionComponent<DrawerProps> = ({
 	destinations
 }) => {
 	return (
-		<nav class="navigationDrawer">
+		<nav className="navigationDrawer">
 			{isValidElement(header) && header}
 			{Array.isArray(destinations) &&
-				<ul class="navigationItems">
+				<ul className="navigationItems">
 					{destinations.map(destination => (
 						<li>
-							<Link activeClassName="activeLink" href={destination.path}>{destination.text}</Link>
+							<Link activeClassName="activeLink" to={destination.path}>{destination.text}</Link>
 						</li>						
 					))}
 				</ul>

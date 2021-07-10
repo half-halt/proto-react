@@ -1,4 +1,4 @@
-import { RefObject } from "preact";
+import { RefObject } from "react";
 
 export interface ImageChooserProps {
 	image?: string;
