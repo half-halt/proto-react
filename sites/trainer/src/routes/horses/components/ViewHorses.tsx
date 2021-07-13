@@ -18,7 +18,7 @@ export const ViewHorses: FunctionComponent = () => {
 
 	return (
 		<div>
-		<ul>
+		<ul className="hhf-cardList">
 			{horses.map(horse => (
 				<HorseCard key={horse.id} horse={horse}/>
 			))}

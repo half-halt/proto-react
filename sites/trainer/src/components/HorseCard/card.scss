@@ -1,0 +1,30 @@
+.hhf-horseCard {
+	margin: 0.25em;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--theme-primary);
+	padding: .5em;
+	max-width: 250px;
+
+	h2 {
+		margin-top: 250px;
+		font-weight: bold;
+		font-size: 1.1em;
+	}
+
+	h3 {
+		color: var(--theme-text-secondary);
+	}
+
+	.actions {
+		margin-top: 1em;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+
+		a:not(:last-of-type) {
+			margin-right: .25em;
+		}
+	}
+}

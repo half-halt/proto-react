@@ -1,18 +1,38 @@
+import { green } from "chalk";
+
 export const defaultTheme = {
 	id: 'default',
     hue: 220,
     background: "#f3f3f3",
+
     primary: {
         light: "hsl(220, 50%, 70%)",
         ".": "hsl(220, 50%, 50%)",
         dark: "hsl(220, 50%, 30%)",
     },
+
     text: {
         primary: "rgb(0,0,0)",
         secondary: "rgb(0,0,0,.80)",
 
         on: {
             primary: "rgb(255, 255, 255)",
+        }
+    },
+
+    states:{
+        hover: "hsla(220, 50%, 50%, 0.10)",
+        selected: "hsla(220, 50%, 50%, 0.15)",
+        active: "hsla(220, 50%, 50%, 0.20)",
+        disabled: "rgba(0, 0, 0, .25)",
+
+        on: {
+            primary:{
+                hover: "rgba(255, 255, 255, 0.10)",
+                selected: "rgba(255, 255, 255, 0.15)",
+                active: "rgba(255, 255, 255, 0.20)",
+                disabled: "rgba(0,0,0,.25)",
+            }
         }
     },
 

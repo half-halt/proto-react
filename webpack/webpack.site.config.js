@@ -23,16 +23,8 @@ const baseConfig = {
 				test: /(\.svg$)/i,
 				use: [
 					{
-						loader: 'babel-loader',
-						options: {
-							presets: ['preact', 'env']
-						}
-					},
-					{
 						loader: '@svgr/webpack',
-						options: { babel: false }
 					}, 
-					'url-loader'
 				]
 			}
 		]

@@ -38,3 +38,98 @@ div#root {
 	font-family: 'Otomanopee One', sans-serif;	
 	color: var(--theme-primary-dark);
 }
+
+
+
+button.primary,
+button.secondary,
+a.primaryButton,
+a.secondaryButton,
+button.danger,
+a.dangerButton {
+	appearance: none;
+	border: none;
+	outline: none;
+	display: inline-flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	cursor:pointer;
+	border-radius: .25em;
+	transition: background-color .2s linear, bordercolor .2s linear;
+	padding: .25em 1em;
+	user-select: none;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	font-weight: bold;
+	text-decoration: none;
+
+	svg {
+		color: inherit;
+		width: 1em;
+		height: 1em;
+		margin-right: 1ch;
+	}
+}
+
+button.primary,
+a.primaryButton {
+	background-color: var(--theme-primary);
+	color: white;
+
+	&:hover {
+		background-color: var(--theme-primary-dark);		
+	}
+
+	&:focus {
+		box-shadow: 0px 0px 0px 2px	hsl(220, 50%, 20%);
+	}
+
+	&:active {
+		box-shadow: 0px 0px 0px 2px	hsl(220, 50%, 20%);
+		background-color: hsl(220, 50%, 20%);
+	}
+}
+
+button.secondary,
+a.secondaryButton {
+	color: var(--theme-primary);
+	border: 1px solid var(--theme-primary);
+	background: none;
+
+	&:hover {
+		background-color: var(--theme-primary);
+		color: white;
+	}
+
+	&:focus {
+		box-shadow: 0px 0px 0px 1px	hsl(220, 50%, 20%);
+	}
+
+	&:active {
+		background-color: hsl(220, 50%, 20%);
+		border-color:hsl(220, 50%, 20%);
+	}	
+}
+
+button.danger,
+a.dangerButton {
+	color: var(--theme-control-error-border);
+	border: 1px solid var(--theme-control-error-border);
+	background: none;
+
+	&:hover {
+		background-color: var(--theme-control-error-border);
+		color: white;
+	}
+
+	&:focus {
+		box-shadow: 0px 0px 0px 2px	hsl(220, 50%, 20%);
+	}
+
+	&:active {
+		background-color: 1px solid var(--theme-control-error-background);
+		border-color: 1px solid var(--theme-control-error-background);
+	}	
+}

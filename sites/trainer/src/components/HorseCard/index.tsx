@@ -1,7 +1,11 @@
 import { FC } from "react";
 import { Horse } from "@hhf/trainer-api-types";
-import "./card.css";
+import "./card.scss";
 import { Link } from "react-router-dom";
+//@ts-ignore
+import DeleteIcon from "./trash-alt-light.svg";
+//@ts-ignore
+import EditIcon from "./pencil-light.svg";
 
 interface HorseCardProps {
 	horse: Horse
@@ -24,8 +28,14 @@ export const HorseCard: FC<HorseCardProps> = ({
 				<h2>{horse.name}</h2> 
 			}
 			<ul className="actions">
-				<Link to={`delete/${horse.id}`}>delet</Link>
-				<Link to={`edit/${horse.id}`}>edit</Link>
+				<Link to={`delete/${horse.id}`} className="dangerButton">
+					<DeleteIcon/>
+					Delete
+				</Link>
+				<Link to={`edit/${horse.id}`} className="primaryButton">
+					<EditIcon/>
+					Edit
+				</Link>
 			</ul>
 		</section>
 	)

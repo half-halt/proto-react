@@ -11,6 +11,7 @@ import { useHeader } from "../../components/header/useHeader";
 import { CreateHorse } from "./components/CreateHorse";
 import { ViewHorses } from "./components/ViewHorses";
 import { horseState } from "../../states/horses";
+import './horses.scss';
 
 const ViewHorse: FunctionComponent = () => {
 	useHeader('Horse')
