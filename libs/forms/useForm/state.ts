@@ -8,7 +8,7 @@ interface Control {
 
 export interface State {
 	defaultValues: Record<string, string>;
-	values: Record<string, string>;
+	values: Record<string, string | File>;
 	errors: Record<string, string[]>;
 	controls: Record<string, Control>;
 }

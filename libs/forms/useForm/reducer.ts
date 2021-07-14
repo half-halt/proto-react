@@ -41,7 +41,14 @@ function register(state: State, action: RegisterAction): State {
 			if ((event.type === 'blur') && schema) {
 				dispatch(validateFieldAction(element.name, schema));
 			} else if ((event.type === 'change') || (event.type === 'input')) {
-				subject.next((event.target as HTMLInputElement).value);
+				if (element.type !== 'file') {
+					subject.next((event.target as HTMLInputElement).value);
+				} else {
+					const file = (event.target as HTMLInputElement)?.files?.item(0);
+					if (file) {
+						subject.next(file);
+					}
+				}
 			}
 		}));
 

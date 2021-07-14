@@ -57,7 +57,7 @@ type HorseUpdatesWithImage = Omit<HorseUpdates, "image"> & { image: File | Blob 
 
 // todo: add caching
 export class HorsesClient {
-	static Dependencies = [LogService, BlobsClient];
+	static Dependencies = [LogService, BlobClient];
 	private _cache = new Map<string, Horse>();
 	private _all = false;
 

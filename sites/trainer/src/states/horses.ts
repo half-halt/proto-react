@@ -6,17 +6,14 @@ import { firstValueFrom } from "rxjs";
 
 const horsesApi = getService(HorsesClient);
 
-const tokenState = atom<string>({
+export const tokenState = atom<string>({
 	key: 'Token',
 	default: ''
 });
 
-export const horsesState = selector<Horses>({
+export const horsesState = atom<Horses>({
 	key: 'HorsesList',
-	get: ({get}) => {
-		const token = get(tokenState);
-		return horsesApi.horses(token);
-	}	
+	default: horsesApi.horses()
 });
 
 export const horseState = selectorFamily<Horse, string>({
