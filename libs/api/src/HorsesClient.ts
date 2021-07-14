@@ -1,9 +1,10 @@
-import { firstValueFrom, of } from "rxjs";
+import { firstValueFrom, Observable, of } from "rxjs";
 import { catchError, switchMap, tap } from "rxjs/operators";
 import { apiRequest } from "./apiRequest";
 import { Horse, Horses, HorseUpdates } from "@hhf/trainer-api-types";
 import { LogService } from "@hhf/services";
 import { rejects } from "assert";
+import { BlobClient } from "./BlobClient";
 
 const HORSES_SHAPES = `#graphql
 	fragment HorseShape on Horse {
@@ -52,14 +53,17 @@ const DELETE_QUERY  = `#graphql
 		}
 	}`;	
 
+type HorseUpdatesWithImage = Omit<HorseUpdates, "image"> & { image: File | Blob };
+
 // todo: add caching
 export class HorsesClient {
-	static Dependencies = [LogService];
+	static Dependencies = [LogService, BlobsClient];
 	private _cache = new Map<string, Horse>();
 	private _all = false;
 
 	constructor(
-		private logger: LogService
+		private logger: LogService,
+		private blobs: BlobClient
 	) {}
 
 	getHorses = () => {
@@ -109,6 +113,29 @@ export class HorsesClient {
 			switchMap(response => of(response.createHorse)),
 			tap(horse => this._cache.set(horse.id, horse))
 		)
+	}
+
+	create(data: HorseUpdatesWithImage) {
+		this.logger.log('HorsesClient: creating a new horse "{0}"', data.name);
+		let task: Observable<Horse>;
+
+		if ((data.image instanceof File) || (data.image instanceof Blob)) {
+			task = this.blobs.save('horses', data.image).pipe(
+				switchMap(
+					(blobInfo) => apiRequest<{ createHorse: Horse }>(process.env.TRAINER_API_URL!, CREATE_QUERY, 
+						{ ...data, image: blobInfo })
+				),
+				switchMap(
+					response => of(response.createHorse)
+				)
+			)
+		} else {
+			task = apiRequest<{ createHorse:  Horse }>(process.env.TRAINER_API_URL!, CREATE_QUERY, { data }).pipe(
+				switchMap(response => of(response.createHorse))
+			)
+		}
+
+		return firstValueFrom(task)
 	}
 
 	updateHorse = (id: string, updates: HorseUpdates) => {
