@@ -1,6 +1,6 @@
 import { createOrUpdateFunction, allowReadIndex } from "../core/index.mjs";
 import fauna from 'faunadb';
-const { Role, Query, Lambda, Collection } = fauna.query;
+const { Role, Query, Lambda, Collection, Call, Var } = fauna.query;
 
 function CreateQueryAlbumsUdf() {
 	return createOrUpdateFunction({
@@ -89,7 +89,12 @@ export default  {
 			allowReadIndex('Albums_All'),
 			allowReadIndex('Albums_By_Id'),
 			allowReadIndex('Albums_By_Ref'),
-		]
+		],
+		membership: {
+			predicate: Query(
+				Lambda('ref', Call('HasRole', Var('ref'), ['Administrator', 'Albums_Admin']))
+			)
+		}
 	},
 
 	{
@@ -103,6 +108,26 @@ export default  {
 			allowReadIndex('Albums_All'),
 			allowReadIndex('Albums_By_Id'),
 			allowReadIndex('Albums_By_Ref'),
+		],
+		membership: {
+			predicate: Query(
+				Lambda('ref', Call('HasRole', Var('ref'), ['Administrator', 'Albums_Admin', 'Albums_Editor']))
+			)
+		}
+	},
+
+	{
+		type: 'role',
+		name: "Albums_User",
+		membership: {
+			predicate: Query(
+				Lambda('ref', Call('HasRole', Var('ref'), ['Albums:User']))
+			)
+		},
+		privileges:[
+			allowReadIndex('Albums_All'),
+			allowReadIndex('Albums_By_Id'),
+
 		]
 	},
 
