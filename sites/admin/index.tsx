@@ -4,13 +4,19 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import '../reset.css';
 import { AdminApp } from './src/AdminApp';
+import { registerStartup, Services } from '@hhf/services';
+import { DefaultTheme, ThemeService } from '@hhf/theme';
+
+registerStartup(ThemeService).setAvailableThemes([DefaultTheme]);
 
 const Root: FC = () => {
 	return (
 		<StrictMode>
 			<RecoilRoot>
 				<BrowserRouter>
-					<AdminApp/>
+					<Services>
+						<AdminApp/>
+					</Services>
 				</BrowserRouter>
 			</RecoilRoot>
 		</StrictMode>

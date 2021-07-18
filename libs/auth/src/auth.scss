@@ -1,0 +1,20 @@
+
+.authContainer {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--theme-backgrond);
+	align-items: center;
+	justify-content: center;
+	z-index: 2000;
+	display: flex;
+
+
+	form {
+		border: 1px solid var(--theme-primary-dark);
+		padding: 2em;
+	}
+
+}
