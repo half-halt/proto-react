@@ -8,4 +8,9 @@ export const authState = atom<UseAuthentication>({
 		isAuthenticated: false,
 		isReady: true,
 	}
-})
+});
+
+export const showLoginState = atom<boolean>({
+	key: 'showLoginState',
+	default: false,
+});

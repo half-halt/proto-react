@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
 
 .authContainer {
 	position: fixed;
@@ -5,7 +6,7 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
-	background-color: var(--theme-backgrond);
+	background-color: hsla(220, 50%, 50%, .25);
 	align-items: center;
 	justify-content: center;
 	z-index: 2000;
@@ -14,7 +15,25 @@
 
 	form {
 		border: 1px solid var(--theme-primary-dark);
+		background-color: var(--theme-background);
 		padding: 2em;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: stretch;
+		min-width: 35ch;
+
+		header {
+			margin-bottom: 1em;
+			font-size: 1.5em;
+			font-weight: bold;
+			color: var(--theme-primary-dark);
+			font-family: 'Otomanopee One', sans-serif;				
+		}
+
+		.actions {
+			margin-top: 1em;
+		}
 	}
 
 }

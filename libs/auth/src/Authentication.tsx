@@ -1,6 +1,6 @@
-import { Children, FC, PropsWithChildren, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { authState } from "./authState";
+import { Children, cloneElement, createElement, FC, isValidElement, PropsWithChildren, useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { authState, showLoginState } from "./authState";
 import { authContext } from "./context";
 import { LoginForm } from "./LoginForm";
 
@@ -19,12 +19,12 @@ export const Authentication: FC<PropsWithChildren<AuthenticationProps>> = ({
 		if (require && !state.isAuthenticated) {
 			setShow(true);
 		}
-	}, [require]);
+	}, [require, state]);
 
 	return (
 		<authContext.Provider value={state}>
 			{!show && state.isReady &&
-				{children}
+				Children.map(children, child => isValidElement(child) ? cloneElement(child, {}) : child)
 			}
 			{show &&
 				<div className="authContainer">
