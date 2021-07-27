@@ -1,7 +1,7 @@
 import { createOrUpdateFunction, allowReadIndex } from "./core/index.mjs";
 import fauna from 'faunadb';
-const { Let, Any, Var, Exists, If, IsArray, Map, Role, Query, Lambda, Collection, Format, TimeAdd,
-		Match, Index, All, Create, Call, Function, Select, Paginate, Get, Roles, Not, Login, Now,
+const { Let, Any, Var, Exists, If, IsArray, Map, Role, Query, Lambda, Collection, Format, TimeAdd, IsEmpty,
+		Match, Index, All, Create, Call, Function, Select, Paginate, Get, Roles, Not, Login, Now, Intersection,
 		IsNull, Equals, Filter, EndsWith, Or, Foreach, Delete, And, Do, NewId, Abort } = fauna.query;
 
 function HasRole(objectRef, name) {
@@ -12,6 +12,23 @@ function HasRole(objectRef, name) {
 			Exists(Var('match')),
 			true,
 			EndsWith(name, "_User")
+		)
+	)
+}
+
+export function CheckRole(userRef, roleOrRoles) {
+	return Let({
+			userRoles: Select(['data', 'roles'], Get(userRef), []),
+			check: If(
+				IsArray(roleOrRoles),
+				roleOrRoles,
+				[roleOrRoles]
+			)
+		},
+		Not(
+			IsEmpty(
+				Intersection(Var('check'), Var('userRoles'))
+			)
 		)
 	)
 }
@@ -228,15 +245,15 @@ export default  {
 			privileges: [
 				{
 					resource: Collection('Role_Map'),
-					actions: { create: true, delete: true, update: true, read: true }
+					actions: { create: true, delete: true, write: true, read: true }
 				},
 				{
 					resource: Index('Role_Check'),
-					actions: { read: true, update: true, delete: true, create: true }
+					actions: { read: true, write: true, delete: true, create: true }
 				},				
 				{
 					resource: Index('Object_Roles'),
-					actions: { read: true, update: true, delete: true, create: true }
+					actions: { read: true, write: true, delete: true, create: true }
 				},				
 				{
 					resource: Function('GrantRole'),
@@ -272,7 +289,10 @@ export default  {
 				resource: Collection('Users')
 			},
 			privileges: [
-
+				{
+					resource: Collection('Users'),
+					actions: { read: true }
+				},
 			]
 		},
 
@@ -292,7 +312,7 @@ export default  {
 		{
 			type: 'function',
 			name: 'HasRole',
-			role: Role("unauthenticated"),
+			role: 'admin',
 			body: Query(
 				Lambda(['objectRef', 'roles'], 
 					If(

@@ -1,0 +1,37 @@
+
+.hhfAlbums {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	position: relative;
+	overflow-y: auto;
+}
+
+.hhfAlbum {
+	padding: 1em;
+	border: 1px solid var(--theme-primary-dark);
+	margin: .5em;
+
+	h2 {
+		font-weight: bold;
+		font-size: 1.12em;
+		color: var(--theme-text-primary);
+	}
+
+	p {
+		margin-top: .25em;
+		color: var(--theme-text-secondary);		
+		max-width: 50ch;
+	}
+
+	#actions {
+		display: flex;
+		margin-top: .25em;
+		flex-direction: row;
+		justify-content: flex-end;
+
+		a {
+			margin: .25em;
+		}
+	}
+}

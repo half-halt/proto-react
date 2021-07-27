@@ -1,8 +1,11 @@
 import { FC, FormEventHandler } from "react";
 import { FormControl, useForm } from "@hhf/forms"
+import { useService } from "@hhf/services";
+import { AuthenticationService } from './AuthenticationService';
 
 export const LoginForm:  FC = () => {
-	const { register, validate, errors } = useForm({});
+	const { register, validate, errors } = useForm<{ email: string, password: string }>({});
+	const authService = useService(AuthenticationService);
 
 	const handleSubmit: FormEventHandler  = (event) => {
 		event.preventDefault();
@@ -10,7 +13,9 @@ export const LoginForm:  FC = () => {
 
 		const { valid, value } = validate();
 		if (valid) {
-			console.log("--> valid", value);
+			authService.login(value.email, value.password).then(
+				(u) => console.log(u)
+			)
 		}
 	}
 

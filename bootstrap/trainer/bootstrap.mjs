@@ -1,6 +1,9 @@
 import { createOrUpdateFunction, allowReadIndex } from "../core/index.mjs";
 import fauna from 'faunadb';
-const { Role, Query, Lambda, Collection, Call, Var } = fauna.query;
+import { CheckRole } from  "../roles.mjs";
+const { Role, Query, Lambda, Collection, Call, Var, Select, Map, Get, Paginate, Update, Create, Merge, Any, Or, And,
+		Exists, Match, Index, Let, NewId, If, Do, Function, Not, IsNull, Delete, Abort, Format, Equals } = fauna.query;
+
 
 function CreateQueryAlbumsUdf() {
 	return createOrUpdateFunction({
@@ -10,6 +13,22 @@ function CreateQueryAlbumsUdf() {
 	})
 }
 
+function CreateOrUpdateAlbum(album, add, remove) {
+	return Let(
+		{
+			albumId: Select('id', album, NewId()),
+			match: Match(Index('Albums_By_Id'), Var('albumId')),
+			result: If(
+				Exists(Var('match')),
+				Update(Select(['data', 0], Paginate(Var('match'))), { data: Var('album') }),
+				Create(Collection('Albums'), { data: Var('album') })
+			)
+		},
+		Do(
+			Var('result')
+		)
+	);
+}
 
 export default  {
 	name: 'Albums',
@@ -23,15 +42,9 @@ export default  {
 		name: 'Albums'
 	},
 
-	// Functions 
-
 	{
-		type: 'function',
-		name: 'GetAlbums',
-		role: Role('guest'),
-		body: Query(
-			Lambda([], true)
-		)
+		type: 'collection',
+		name: 'Album_Contents'
 	},
 
 	// Indexices
@@ -74,6 +87,22 @@ export default  {
 	},
 
 	{
+		type: 'index',
+		name: 'Album_Content_FromRef',
+		source: Collection('Album_Contents'),
+		terms: [
+			{ field: ['data', 'album' ] },	
+		],
+		values: [
+			{ field: ['data', 'album' ] },
+			{ field: ['data', 'item' ] },
+			{ field:  'ref' },
+		],
+	},
+
+	// Roles
+
+	{
 		type: 'role',
 		name: 'Albums_Admin',
 		privileges: [
@@ -82,19 +111,41 @@ export default  {
 				actions: {
 					create: true,
 					delete: true,
-					update: true,
+					write: true,
 					read: true,
 				}
 			},
+			{
+				resource: Collection('Users'),
+				actions: { read: true },
+			},
+			{
+				resource: Function('CreateAlbum'),
+				actions: { call: true },
+			},			
+			{
+				resource: Function('DeleteAlbum'),
+				actions: { call: true },
+			},			
+			{
+				resource: Function('GetAlbums'),
+				actions: { call: true },
+			},			
 			allowReadIndex('Albums_All'),
 			allowReadIndex('Albums_By_Id'),
 			allowReadIndex('Albums_By_Ref'),
+			allowReadIndex('Album_Content_FromRef'),
 		],
 		membership: {
 			predicate: Query(
-				Lambda('ref', Call('HasRole', Var('ref'), ['Administrator', 'Albums_Admin']))
+				Lambda('ref',
+					And(
+						Equals(Collection('Users'), Select('collection', Var('ref'))),
+						CheckRole(Var('ref'), ["Administrator", "Albums_Admin"])
+					)
+				)
 			)
-		}
+		},
 	},
 
 	{
@@ -103,17 +154,31 @@ export default  {
 		privileges: [
 			{
 				resource: Collection('Albums'),
-				actions: { update: true, read: true },
+				actions: { write: true, read: true },
+			},
+			{
+				resource: Function('UpdateAlbum'),
+				actions: { call: true },
+			},
+			{
+				resource: Function('GetAlbums'),
+				actions: { call: true },
 			},
 			allowReadIndex('Albums_All'),
 			allowReadIndex('Albums_By_Id'),
 			allowReadIndex('Albums_By_Ref'),
+			allowReadIndex('Album_Content_FromRef'),
 		],
 		membership: {
 			predicate: Query(
-				Lambda('ref', Call('HasRole', Var('ref'), ['Administrator', 'Albums_Admin', 'Albums_Editor']))
+				Lambda('ref', 
+					And(
+						Equals(Collection('Users'), Select('collection', Var('ref'))),
+						CheckRole(Var('ref'), ['Administrator', 'Albums_Admin', 'Albums_Editor'])
+					)
+				)
 			)
-		}
+		},
 	},
 
 	{
@@ -121,22 +186,112 @@ export default  {
 		name: "Albums_User",
 		membership: {
 			predicate: Query(
-				Lambda('ref', Call('HasRole', Var('ref'), ['Albums:User']))
+				Lambda('ref', 
+					Or(
+						Equals(Collection('Users'), Select('collection', Var('ref'))),
+						CheckRole(Var('ref'), ["Administrator", "Albums_Admin"])
+					)
+				)
 			)
 		},
 		privileges:[
+			{
+				resource: Collection('Albums'),
+				actions: { read: true },
+			},
+			{
+				resource: Collection('Users'),
+				actions: { read: true },
+			},
+			{
+				resource: Function('GetAlbums'),
+				actions: { call: true },
+			},
 			allowReadIndex('Albums_All'),
 			allowReadIndex('Albums_By_Id'),
-
+			allowReadIndex('Album_Content_FromRef'),
 		]
 	},
 
 	{
 		type: 'function',
-		name: 'CreateAlbum',
+		name: 'GetAlbums',
+		role: Role('Albums_User'),
 		body: Query(
-			Lambda([], true)
-		),
+			Lambda([],
+				Select("data",
+					Map(
+						Paginate(Match(Index('Albums_All'))),
+						Lambda(['created', 'ref'],
+							Let({
+									match: Match(Index('Album_Content_FromRef'), Var('ref')),
+									contents: If(
+										Exists(Var('match')),
+										Select('data', Paginate(Var('match'))),
+										[]
+									)
+								},
+								Merge(									
+									Select('data', Get(Var('ref'))),
+									{
+										contents: Var('contents')
+									}
+								)
+							)
+						)
+					),
+					[]
+				)
+			)
+		)
+	},
+
+
+	{
+		type: 'function',
+		name: 'CreateAlbum',
 		role: Role('Albums_Admin'),
-	}
+		body: Query(
+			Lambda(['album', 'add'],
+				CreateOrUpdateAlbum(Var('album'), Var('add'), [])
+			)
+		),
+	},
+
+	{
+		type: 'function',
+		name: 'UpdateAlbum',
+		role: Role('Albums_Editor'),
+		body: Query(
+			Lambda(['album', 'add', 'remove'],
+				CreateOrUpdateAlbum(Var('album'), Var('add'), Var('remove'))
+			)
+		),
+	},	
+
+	{
+		type: 'function',
+		name: 'DeleteAlbum',
+		role: Role('Albums_Admin'),
+		body: Query(
+			Lambda(['albumId'],
+				Let({
+						match: Match(Index('Albums_By_Id'), Var('albumId')),
+						albumRef: If(
+							Exists(Var('match')),
+							Select(['data', 0], Paginate(Var('match'))),
+							null
+						)						
+					},
+					Do(
+						If(
+							Not(IsNull(Var('albumRef'))),
+							Select('data', Delete(Var('albumRef'))),
+							Abort(Format('Unable to locate an album ["%s"]', Var('albumId')))
+						)
+					)
+				)
+			)
+		),
+	},		
 ]}

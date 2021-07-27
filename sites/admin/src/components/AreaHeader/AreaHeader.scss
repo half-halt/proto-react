@@ -1,0 +1,37 @@
+
+.hhfAreaHeader {
+	display: grid;
+	background-color: var(--theme-primary-light);
+	border-bottom: 1px solid var(--theme-primary-dark);
+	grid-template-rows: 2em auto;
+	grid-template-columns: auto 35ch;
+	grid-template-areas: 
+		"title auth"
+		"actions actions";
+
+	h1 {
+		font-size: 1.5rem;
+		color: var(--theme-primary-dark);
+		grid-area: title;
+		padding: .25em 1em;
+		font-weight: bold;
+	}
+
+	#auth {
+		grid-area: auth;
+		font-size:smaller;
+		display: inline-flex;
+		margin: .125em;
+		align-items: flex-start;
+		justify-content: flex-end;
+		color: var(--theme-primary-dark);
+	}
+
+	#actions {
+		grid-area: actions;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-end;
+		padding: .5rem;
+	}
+}
