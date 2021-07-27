@@ -1,48 +1,21 @@
-import { FC, FormEventHandler, useState } from "react";
-import { useForm, FormControl  } from "@hhf/forms";
-import { albumsState, useAddAlbum } from "./albumsState";
-import { Album, AlbumsClient } from "@hhf/api";
-import { nanoid } from "nanoid";
-import { useService } from "@hhf/services";
+import { FC } from "react";
+import { Album  } from "@hhf/api";
 import { AreaHeader } from "../../components/AreaHeader";
+import { AlbumForm } from "./components/AlbumForm";
+import { useNavigate } from "react-router";
 
 export const CreateAlbum: FC = () => {
-	const { register, validate, errors } = useForm<Album>({});
-	const [progress, setProgress] = useState(false);
-	const albumApi = useService(AlbumsClient);
-	const addAlbum = useAddAlbum();
+	const navigate = useNavigate();
 
-	const handleSubmit: FormEventHandler = (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-
-		const { valid, value } = validate();
-		if (valid) {
-			setProgress(true);
-			value.id = nanoid(10);
-			albumApi.createAlbum(value).then(
-				(album) => addAlbum(album)
-			).finally(
-				() => setProgress(false)
-			);
-		}
+	const handleAdd = (album: Album) => {
+		navigate(`/albums#${album.id}`);
 	}
 
 	return (
 		<>
 			<AreaHeader title="Create Album"/>
 			<main>
-				<form onSubmit={handleSubmit}>
-					<h1>Create Album</h1>
-					<FormControl label="Name:" errors={errors.name}>
-						<input name="name" type="text" ref={register} disabled={progress}/>
-					</FormControl>
-
-					<div className="actions">
-						{progress && <div>Creating...</div>}
-						<button type="submit" disabled={progress}>Create</button>
-					</div>
-				</form>
+				<AlbumForm allowId onSubmit={handleAdd}/>
 			</main>
 		</>
 	)

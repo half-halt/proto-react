@@ -1,15 +1,13 @@
 import { atom } from "recoil";
 import { UseAuthentication } from "./context";
 
-export const authState = atom<UseAuthentication>({
+// Holds information about the state of authentication
+export const authState = atom<boolean>({
 	key: 'authState',
-	default: {
-		inProgress: false,
-		isAuthenticated: false,
-		isReady: true,
-	}
+	default: true,
 });
 
+// Holds information about shwoing the logins tate.
 export const showLoginState = atom<boolean>({
 	key: 'showLoginState',
 	default: false,

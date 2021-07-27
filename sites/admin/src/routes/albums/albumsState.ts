@@ -1,6 +1,7 @@
 import { getService } from "@hhf/services";
 import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
 import { Album, AlbumsClient } from "@hhf/api";
+import { isTokenCredential } from "@azure/core-auth";
 const albumsApi = getService(AlbumsClient);
 
 export const albumsState = atom<Album[]|null>({
@@ -27,11 +28,9 @@ export function useAlbums() {
 export function useAddAlbum() {
 	const updateList = useSetRecoilState(albumsState);
 	return (album: Album) => {
-		updateList(list => {
-			if (!list) {
-				return [album];
-			}
-			return list.concat(album);
-		});
+		updateList(list => (list === null) ? 
+			[album] :
+			list.concat(album)
+		);
 	}
 }

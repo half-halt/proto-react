@@ -9,6 +9,7 @@
     "@types/aws-lambda": "^8.10.78",
     "@types/color": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.4",
+    "@types/lodash": "^4.14.171",
     "@types/node": "^16.0.1",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
@@ -40,6 +41,7 @@
     "graphql": "^15.5.1",
     "history": "5",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "nanoid": "^3.1.23",
     "preact": "^10.5.14",
     "preact-async-route": "^2.2.1",
@@ -58,6 +60,9 @@
     "trainer-api:build": "webpack --mode=production -c ./apis/trainer/webpack.config.js",
     "trainer-api:dev": "webpack --watch --mode=development -c ./apis/trainer/webpack.config.js",
     "trainer-api:start": "netlify dev -f ./build/api/trainer-api -d ./build/api/trainer-api -p 4044",
-    "trainer-api": "run-p trainer-api:dev trainer-api:start"
+    "trainer-api": "run-p trainer-api:dev trainer-api:start",
+    "admin:build": "webpack --mode=production -c ./sites/admin/webpack.config.js",
+    "admin:start": "webpack serve --mode=development --open -c ./sites/admin/webpack.config.js",
+    "bootstrap": "node ./bootstrap/bootstrap.mjs"
   }
 }
