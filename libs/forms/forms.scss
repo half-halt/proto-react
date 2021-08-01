@@ -37,7 +37,8 @@
 		margin-bottom: .25em;
 	}
 
-	input {
+	input, 
+	textarea {
 		outline: none;
 		appearance: none;
 		border: 1px solid var(--theme-control-border);
@@ -47,33 +48,44 @@
 		transition: all .25s linear;
 	}
 
-	input:focus {
+	textarea {
+		resize: none;
+	}
+
+	input:focus,
+	textarea:focus {
 		box-shadow: 0px 0px 1px 1px var(--theme-control-outline);
 	}
 
-	input:hover {
+	input:hover,
+	textarea:hover {
 		background-color: var(--theme-control-hover);
 	}
 
-	input.invalid {
+	input.invalid,
+	textarea.invalid {
 		background-color: var(--theme-control-error-background);
 		border-color: var(--theme-control-error-border);
 	}
 	
-	input:focus.invalid {
+	input:focus.invalid,
+	textarea:focus.invalid {
 		box-shadow: 0px 0px 1px 1px var(--theme-control-error-outline);
 	}
 
-	input:hover.invalid {
+	input:hover.invalid,
+	texarea:hover.invalid {
 		background-color: var(--theme-control-error-hover);
 	}
 
 	input[type='text'],
-	input[type='password'] {
+	input[type='password'],
+	textarea {
 		padding: .5em .5em;
 	}
 
-	input:disabled {
+	input:disabled,
+	textarea:disabled {
 		color: var(--theme-control-disabled-text);
 		background-color: var(--theme-control-disabled-background);
 		border-color: var(--theme-control-disabled-border);

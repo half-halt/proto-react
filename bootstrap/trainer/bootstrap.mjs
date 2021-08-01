@@ -25,7 +25,7 @@ function CreateOrUpdateAlbum(album, add, remove) {
 			)
 		},
 		Do(
-			Var('result')
+			Select('data', Var('result'))
 		)
 	);
 }
@@ -123,6 +123,10 @@ export default  {
 				resource: Function('CreateAlbum'),
 				actions: { call: true },
 			},			
+			{
+				resource: Function('UpdateAlbum'),
+				actions: { call: true },
+			},
 			{
 				resource: Function('DeleteAlbum'),
 				actions: { call: true },

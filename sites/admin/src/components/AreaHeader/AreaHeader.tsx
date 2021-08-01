@@ -22,7 +22,7 @@ export const AreaHeader: FC<PropsWithChildren<AreaHeaderProps>> = ({
 	}, [title])
 
 	return (
-		<header className="hhfAreaHeader">
+		<header id="areaHeader" className="hhfAreaHeader">
 			<h1>{title || 'Admin'}</h1>
 			<div id="actions">
 				{children}

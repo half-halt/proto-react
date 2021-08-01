@@ -1,11 +1,28 @@
 #app {
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	display: grid;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	grid-template-areas: 
+		"nav areaheader"
+		"nav content";
+	grid-template-columns: 20ch auto;
+	grid-template-rows: 4rem auto;
+	
+	header {
+		grid-area: header;
+	}
 
-	main { 
-		flex-grow: 1;
-		padding: 1rem;
+	#areaHeader {
+		grid-area: areaheader;
+	}
+
+	main, #main { 
+		grid-area: content;
+		overflow-y: auto;
+		padding: .5rem;
 	}
 }
 

@@ -2,6 +2,7 @@ import { State } from "./state";
 import { Actions, RegisterAction, setValueAction, validateFieldAction } from "./actions";
 import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, merge, Subscription } from "rxjs";
 import { getFieldErrors } from "./validate";
+import { getValue } from "./getValue";
 
 export function markValid(element: HTMLElement, valid?: boolean) {
 	if (valid === true) {
@@ -17,9 +18,9 @@ export function markValid(element: HTMLElement, valid?: boolean) {
 }
 
 export function getValues(state: State) {
-	const values: Record<string, string> = {}
+	const values: Record<string, string|File> = {}
 	for (const [name, control] of Object.entries(state.controls)) {
-		values[name] = control.element.value;
+		values[name] = getValue(control.element);
 	}
 	return values;
 }

@@ -25,10 +25,10 @@ export function registerAction(element: HTMLInputElement, dispatch: DispatchFunc
 export interface SetResultAction extends Action {
 	type: 'set-result';
 	errors: Record<string, string[]>;
-	values: Record<string, string>;
+	values: Record<string, string | File>;
 }
 
-export function setResultsAction(values: Record<string, string>, errors: Record<string, string[]>): SetResultAction {
+export function setResultsAction(values: Record<string, string | File>, errors: Record<string, string[]>): SetResultAction {
 	return {
 		type: 'set-result',
 		errors,

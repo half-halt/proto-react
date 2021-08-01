@@ -2,15 +2,16 @@ import { LogService } from "@hhf/services";
 import { ApiService } from "./ApiService";
 import { query  } from 'faunadb';
 import { nanoid } from "nanoid";
+import { catchError, from, throwError } from "rxjs";
 const { Call } = query;
 
 export interface Album {
-	id: string;
+	readonly id: string;
 	name: string;
 }
 
 export type WithOptionalId<T> = Omit<T, "id"> & { id?: string };
-export type PartialWithId<T> = Partial<T> & { id: string };
+export type PartialWithId<T> = Partial<T> & { readonly id: string };
 
 export class AlbumsClient {
 	static Dependencies = [LogService, ApiService];
@@ -66,5 +67,31 @@ export class AlbumsClient {
 				return Promise.reject(error);
 			}
 		)
+	}
+
+	updateAlbum2(album: PartialWithId<Album>, add: string[] = [], remove: string[] = []) {
+		const client = this.apiService.getClient();
+
+		this.logger.log('Updating album [{0}, {1}, {2}/{3}]', album.name || '<unchanged>', album.id, add.length, remove.length);
+		return from(client.query<Album>(Call("UpdateAlbum", album, add, remove))).pipe(
+			catchError(error => {
+				this.logger.error('Failed to update album [{0}]: {1}', album.id, String(error));
+				return throwError(() => error);
+			})
+		);
+	}
+
+	deleteAlbum(album: Album) {
+		const client = this.apiService.getClient();
+
+		this.logger.log('Deleteing album [{0}, {1}]', album.name, album.id);
+		return client.query(
+			Call('DeleteAlbum', album.id)
+		).catch(
+			(error) => {
+				this.logger.error('Failed to delete album [{0}]: {1}', album.id, String(error));
+				return Promise.reject(error);
+			}
+		);
 	}
 }

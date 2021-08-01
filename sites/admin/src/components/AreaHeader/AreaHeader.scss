@@ -5,6 +5,8 @@
 	border-bottom: 1px solid var(--theme-primary-dark);
 	grid-template-rows: 2em auto;
 	grid-template-columns: auto 35ch;
+	max-height: 4rem;
+	min-height: 2rem;
 	grid-template-areas: 
 		"title auth"
 		"actions actions";
